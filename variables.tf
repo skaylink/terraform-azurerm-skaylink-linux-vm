@@ -26,9 +26,9 @@ variable "resource_group_name" {
 }
 
 variable "mgmt_resource_group" {
-  type = string
+  type        = string
   description = "The resource group where management tools are located, used for VM disk encryption"
-  default = "iq3-basemanagement"
+  default     = "iq3-basemanagement"
 }
 
 variable "vm_name" {
@@ -126,7 +126,7 @@ variable "data_disk_storage_account_type" {
 variable "vm_encryption_key_vault_name" {
   type        = string
   description = "The name of the Key Vault which holds the encryption key"
-  default = null
+  default     = null
 }
 
 variable "vm_enable_disk_encryption" {
@@ -138,7 +138,7 @@ variable "vm_enable_disk_encryption" {
 variable "vm_encryption_key_name" {
   type        = string
   description = "The name of the encryption key inside the key vault"
-  default = null
+  default     = null
 }
 
 variable "sshKey" {

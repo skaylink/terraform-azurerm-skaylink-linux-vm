@@ -116,27 +116,27 @@ resource "azurerm_backup_protected_vm" "backup_configuration" {
 # VM Extensions #
 #################
 
-# resource "azurerm_virtual_machine_extension" "diskencryption" {
-#   count = var.vm_enable_disk_encryption ? 1 : 0
-#   name                 = "AzureDiskEncryptionForLinux"
-#   virtual_machine_id   = azurerm_linux_virtual_machine.virtual_machine.id
-#   publisher            = "Microsoft.Azure.Security"
-#   type                 = "AzureDiskEncryptionForLinux"
-#   type_handler_version = "1.1"
+resource "azurerm_virtual_machine_extension" "diskencryption" {
+  count                = var.vm_enable_disk_encryption ? 1 : 0
+  name                 = "AzureDiskEncryptionForLinux"
+  virtual_machine_id   = azurerm_linux_virtual_machine.virtual_machine.id
+  publisher            = "Microsoft.Azure.Security"
+  type                 = "AzureDiskEncryptionForLinux"
+  type_handler_version = "1.1"
 
-#   settings = <<SETTINGS
-#     {
-#         "EncryptionOperation": "EnableEncryption",
-#         "KeyVaultURL": "${data.azurerm_key_vault.key_vault.vault_uri}",
-#         "KeyVaultResourceId": "${data.azurerm_key_vault.key_vault.id}",
-#         "KeyEncryptionKeyURL": "${data.azurerm_key_vault_key.encryption_key.id}",
-#         "KekVaultResourceId": "${data.azurerm_key_vault.key_vault.id}",
-#         "KeyEncryptionAlgorithm": "RSA-OAEP",
-#         "VolumeType": "ALL",
-#         "SkipVmBackup" : true
-#     }
-# SETTINGS
-# }
+  settings = <<SETTINGS
+    {
+        "EncryptionOperation": "EnableEncryption",
+        "KeyVaultURL": "${data.azurerm_key_vault.key_vault.vault_uri}",
+        "KeyVaultResourceId": "${data.azurerm_key_vault.key_vault.id}",
+        "KeyEncryptionKeyURL": "${data.azurerm_key_vault_key.encryption_key.id}",
+        "KekVaultResourceId": "${data.azurerm_key_vault.key_vault.id}",
+        "KeyEncryptionAlgorithm": "RSA-OAEP",
+        "VolumeType": "ALL",
+        "SkipVmBackup" : true
+    }
+SETTINGS
+}
 
 resource "azurerm_virtual_machine_extension" "vm_monitoring" {
   name                       = "iq3-Management-Monitoring"
