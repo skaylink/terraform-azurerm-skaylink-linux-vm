@@ -59,24 +59,6 @@ data "azurerm_storage_account" "logging_storage_account" {
   resource_group_name = "iq3-basemanagement"
 }
 
-data "template_file" "iaas_diagnostics_extension_settings" {
-  template = file("${path.module}/iaasDiagnosticsExtensionSettingsTemplate.json.tpl")
-
-  vars = {
-    log_storage_account_name = data.azurerm_storage_account.logging_storage_account.name
-    virtual_machine_id       = azurerm_linux_virtual_machine.virtual_machine.id
-  }
-}
-
-data "template_file" "iaas_diagnostics_extension_protected_settings" {
-  template = file("${path.module}/iaasDiagnosticsExtensionProtectedSettingsTemplate.json.tpl")
-
-  vars = {
-    log_storage_account_name = data.azurerm_storage_account.logging_storage_account.name
-    log_storage_account_key  = data.azurerm_storage_account.logging_storage_account.primary_access_key
-  }
-}
-
 data "azurerm_key_vault" "key_vault" {
   name                = var.vm_encryption_key_vault_name
   resource_group_name = var.mgmt_resource_group

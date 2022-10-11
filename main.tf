@@ -166,8 +166,14 @@ resource "azurerm_virtual_machine_extension" "iaas_diagnostics" {
   type                       = "LinuxDiagnostic"
   type_handler_version       = "2.3"
   auto_upgrade_minor_version = true
-  settings                   = data.template_file.iaas_diagnostics_extension_settings.rendered
-  protected_settings         = data.template_file.iaas_diagnostics_extension_protected_settings.rendered
+  settings = templatefile("${path.module}/iaasDiagnosticsExtensionSettingsTemplate.json.tpl", {
+    log_storage_account_name = data.azurerm_storage_account.logging_storage_account.name
+    virtual_machine_id       = azurerm_linux_virtual_machine.virtual_machine.id
+  })
+  protected_settings = templatefile("${path.module}/iaasDiagnosticsExtensionProtectedSettingsTemplate.json.tpl", {
+    log_storage_account_name = data.azurerm_storage_account.logging_storage_account.name
+    log_storage_account_key  = data.azurerm_storage_account.logging_storage_account.primary_access_key
+  })
 }
 
 resource "azurerm_virtual_machine_extension" "linux_vm_access" {
@@ -196,4 +202,3 @@ resource "azurerm_virtual_machine_extension" "linux_vm_access" {
       }
       SETTINGS
 }
-
