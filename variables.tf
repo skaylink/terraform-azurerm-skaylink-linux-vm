@@ -169,3 +169,8 @@ variable "iaas_logging_account_name" {
   type        = string
   description = "The logging Account within iq3-basemanagement to enable Patch Management for virtual machine"
 }
+
+variable "azure_ad_authentication" {
+  type        = bool
+  description = "Enables or disables AADSSHLoginForLinux VM extension"
+}

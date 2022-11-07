@@ -197,3 +197,13 @@ resource "azurerm_virtual_machine_extension" "linux_vm_access" {
       SETTINGS
 }
 
+resource "azurerm_virtual_machine_extension" "linux_azure_ad_auth" {
+  count = var.azure_ad_authentication ? 1 : 0
+
+  name                       = "AADSSHLoginForLinux"
+  virtual_machine_id         = azurerm_linux_virtual_machine.virtual_machine.id
+  publisher                  = "Microsoft.Azure.ActiveDirectory"
+  type                       = "AADSSHLoginForLinux"
+  type_handler_version       = "1.0"
+  auto_upgrade_minor_version = true
+}
